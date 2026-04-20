@@ -52,7 +52,7 @@ python app.py
 *The database will be automatically initialized on the first run.*
 
 ### 4. Access
-Open your browser at: **http://127.0.0.1:5000**
+Open your browser at: **https://ai-job-detector.vercel.app/**
 
 ---
 

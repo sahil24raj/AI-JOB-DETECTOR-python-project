@@ -91,4 +91,4 @@ The engine scans job postings for patterns across several high-risk categories:
 ## 🤝 Contributing
 Feel free to fork this project and submit pull requests for more scam detection patterns!
 
-Developed with ❤️ by **Sahil Raj**
+Developed with ❤️ by **Sahil Raj, Durgesh Mishra, Priyanshu Kumar**

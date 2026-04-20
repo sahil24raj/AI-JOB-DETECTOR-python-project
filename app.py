@@ -9,10 +9,20 @@ from scam_detector import analyze_job_description
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_change_this_in_production'
 
-DATABASE = 'job_detector.db'
+# On Vercel, we must use /tmp for any file writes.
+# Note: /tmp is ephemeral and will be cleared when the function restarts.
+if os.environ.get('VERCEL'):
+    DATABASE = '/tmp/job_detector.db'
+    # Copy initial DB to /tmp if it exists in the repo but not in /tmp
+    if not os.path.exists(DATABASE) and os.path.exists('job_detector.db'):
+        import shutil
+        shutil.copy('job_detector.db', DATABASE)
+else:
+    DATABASE = 'job_detector.db'
 
 def get_db_connection():
-    conn = sqlite3.connect(DATABASE)
+    # Use check_same_thread=False for sqlite in multi-threaded environments like Flask
+    conn = sqlite3.connect(DATABASE, check_same_thread=False)
     conn.row_factory = sqlite3.Row
     return conn
 

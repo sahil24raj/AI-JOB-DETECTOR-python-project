@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="page-wrapper">
+
+  <!-- ── PAGE HEADER ──────────────────────────────────────── -->
+  <section class="hero hero-sm">
+    <h1 class="hero-title">📋 Analysis <span class="gradient-text">History</span></h1>
+    <p class="hero-sub">Your previously analyzed job &amp; internship listings.</p>
+  </section>
+
+  <!-- ── HISTORY LIST ─────────────────────────────────────── -->
+  <section class="history-section">
+
+    {% if jobs %}
+
+    <div class="history-meta">
+      <span>{{ jobs|length }} listing{{ 's' if jobs|length != 1 else '' }} analyzed</span>
+      <div class="legend-row">
+        <span class="badge badge-safe">Safe</span>
+        <span class="badge badge-medium">Medium Risk</span>
+        <span class="badge badge-high">High Risk</span>
+      </div>
+    </div>
+
+    <div class="history-grid">
+      {% for job in jobs %}
+      <div class="history-card result-{{ job.result | replace(' ', '-') | lower }}" id="jobCard{{ job.id }}">
+
+        <!-- Top row: badge + score + date -->
+        <div class="hcard-top">
+          <span class="badge badge-{{ 'safe' if job.result == 'Safe' else ('medium' if job.result == 'Medium Risk' else 'high') }}">
+            {{ job.result }}
+          </span>
+          <span class="hcard-score" title="Scam Score">
+            {{ job.scam_score }}<span>/100</span>
+          </span>
+          <span class="hcard-date">
+            {{ job.created_at.strftime('%d %b %Y, %I:%M %p') }}
+          </span>
+        </div>
+
+        <!-- Job text preview -->
+        <p class="hcard-preview">{{ job.job_preview }}</p>
+
+        <!-- Flags -->
+        {% if job.flags %}
+        <div class="hcard-flags">
+          {% for flag in job.flags[:3] %}
+            <span class="flag-chip">⚠️ {{ flag }}</span>
+          {% endfor %}
+          {% if job.flags|length > 3 %}
+            <span class="flag-chip flag-more">+{{ job.flags|length - 3 }} more</span>
+          {% endif %}
+        </div>
+        {% else %}
+        <p class="hcard-clean">✅ No red flags found</p>
+        {% endif %}
+
+        <!-- Actions -->
+        <div class="hcard-actions">
+          <button class="btn btn-sm btn-ghost" onclick="toggleDetail({{ job.id }})">
+            📄 View Full Text
+          </button>
+          <button class="btn btn-sm btn-danger" onclick="deleteJob({{ job.id }})">
+            🗑️ Delete
+          </button>
+        </div>
+
+        <!-- Expandable full text -->
+        <div class="hcard-full hidden" id="fullText{{ job.id }}">
+          <pre class="full-text-pre">{{ job.job_text }}</pre>
+        </div>
+
+      </div>
+      {% endfor %}
+    </div>
+
+    {% else %}
+    <!-- Empty State -->
+    <div class="empty-state">
+      <div class="empty-icon">🔍</div>
+      <h2>No Analyses Yet</h2>
+      <p>You haven't analyzed any job descriptions yet.<br>Go to the analyzer and paste your first listing!</p>
+      <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Start Analyzing →</a>
+    </div>
+    {% endif %}
+
+  </section>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function toggleDetail(id) {
+  const el = document.getElementById('fullText' + id);
+  el.classList.toggle('hidden');
+}
+
+function deleteJob(id) {
+  if (!confirm('Delete this analysis record permanently?')) return;
+
+  fetch('/delete/' + id, { method: 'POST' })
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) {
+        const card = document.getElementById('jobCard' + id);
+        card.style.transition = 'opacity 0.4s, transform 0.4s';
+        card.style.opacity = '0';
+        card.style.transform = 'scale(0.95)';
+        setTimeout(() => card.remove(), 420);
+      }
+    })
+    .catch(() => alert('Could not delete. Please try again.'));
+}
+</script>
+{% endblock %}

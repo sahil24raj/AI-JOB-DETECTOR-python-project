@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="auth-wrapper">
+  <div class="auth-card">
+
+    <div class="auth-header">
+      <div class="auth-icon">🛡️</div>
+      <h1>AI Job Detector</h1>
+      <p>Create your free account</p>
+    </div>
+
+    <form action="{{ url_for('register') }}" method="POST" class="auth-form" id="registerForm">
+
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <div class="input-wrap">
+          <span class="input-icon">👤</span>
+          <input type="text" id="name" name="name" placeholder="John Doe" required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <div class="input-wrap">
+          <span class="input-icon">✉️</span>
+          <input type="email" id="email" name="email" placeholder="john@example.com" required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrap">
+          <span class="input-icon">🔒</span>
+          <input type="password" id="password" name="password" placeholder="Min 6 characters" minlength="6" required />
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full">
+        Create Account →
+      </button>
+    </form>
+
+    <p class="auth-footer">
+      Already have an account? <a href="{{ url_for('login') }}">Sign in</a>
+    </p>
+
+  </div>
+</div>
+
+{% endblock %}

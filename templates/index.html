@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block extra_head %}
+<meta name="description" content="Detect fake job and internship postings using AI-powered scam analysis." />
+{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+
+  <!-- ── HERO ────────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-badge">🤖 AI-Powered Analysis</div>
+    <h1 class="hero-title">Fake Job &amp; Internship <span class="gradient-text">Detector</span></h1>
+    <p class="hero-sub">Paste any job or internship description below. Our AI scores it for scam signals in seconds.</p>
+
+    <div class="stats-row">
+      <div class="stat-chip">🔍 35+ Red-Flag Checks</div>
+      <div class="stat-chip">⚡ Instant Results</div>
+      <div class="stat-chip">🔒 Your Data is Private</div>
+    </div>
+  </section>
+
+  <!-- ── ANALYZER CARD ─────────────────────────────────────── -->
+  <section class="analyzer-card" id="analyzerCard">
+
+    <div class="card-header">
+      <h2>📝 Paste Job Description</h2>
+      <span class="char-count" id="charCount">0 characters</span>
+    </div>
+
+    <textarea
+      id="jobText"
+      class="job-textarea"
+      placeholder="Paste the full job or internship description here...
+
+Example suspicious signs we detect:
+• Requests payment / registration fee
+• Promises unrealistic salary without experience
+• Hiring via WhatsApp / Telegram only
+• Asks for bank details or government IDs
+• 'No experience required' + huge salary
+• MLM / referral-based income structure
+..."
+      rows="12"
+    ></textarea>
+
+    <div class="action-row">
+      <button class="btn btn-primary btn-analyze" id="analyzeBtn" onclick="analyzeJob()">
+        <span id="btnText">🔍 Analyze Now</span>
+        <span id="btnSpinner" class="spinner hidden"></span>
+      </button>
+      <button class="btn btn-ghost" onclick="clearAll()">✕ Clear</button>
+    </div>
+
+  </section>
+
+  <!-- ── RESULTS ───────────────────────────────────────────── -->
+  <section class="result-section hidden" id="resultSection">
+
+    <!-- Score Gauge -->
+    <div class="score-card" id="scoreCard">
+      <div class="score-ring-wrap">
+        <svg class="score-ring" viewBox="0 0 120 120">
+          <circle class="ring-bg"    cx="60" cy="60" r="50" />
+          <circle class="ring-fill"  cx="60" cy="60" r="50" id="ringFill" />
+        </svg>
+        <div class="score-center">
+          <span class="score-number" id="scoreNumber">0</span>
+          <span class="score-label">/ 100</span>
+        </div>
+      </div>
+
+      <div class="score-info">
+        <div class="result-badge" id="resultBadge">—</div>
+        <p class="score-description" id="scoreDescription">Run an analysis to see results.</p>
+      </div>
+    </div>
+
+    <!-- Red Flags List -->
+    <div class="flags-card" id="flagsCard">
+      <h3>🚩 Detected Red Flags</h3>
+      <ul class="flags-list" id="flagsList"></ul>
+      <p class="no-flags hidden" id="noFlags">✅ No red flags detected. This listing looks clean.</p>
+    </div>
+
+  </section>
+
+  <!-- ── HOW IT WORKS ──────────────────────────────────────── -->
+  <section class="how-section">
+    <h2 class="section-title">How It Works</h2>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-icon">📋</div>
+        <h3>1. Paste Description</h3>
+        <p>Copy the full job or internship posting text and paste it into the box above.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">🤖</div>
+        <h3>2. AI Scans It</h3>
+        <p>Our engine checks 35+ scam patterns including payment demands, vague roles, and fake urgency.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">📊</div>
+        <h3>3. See Your Score</h3>
+        <p>Get a 0–100 scam score with color-coded result (Safe / Medium / High Risk) and detailed reasons.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}

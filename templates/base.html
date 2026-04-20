@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Job Detector — Base</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<!-- ── NAVBAR ─────────────────────────────────────────────────────── -->
+<nav class="navbar">
+  <a href="{{ url_for('dashboard') }}" class="nav-brand">
+    <span class="nav-icon">🛡️</span>
+    <span>AI Job Detector</span>
+  </a>
+  {% if session.get('user_id') %}
+  <div class="nav-links">
+    <a href="{{ url_for('dashboard') }}" class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}">
+      🔍 Analyze
+    </a>
+    <a href="{{ url_for('history') }}" class="nav-link {% if request.endpoint == 'history' %}active{% endif %}">
+      📋 History
+    </a>
+    <span class="nav-user">👤 {{ session['user_name'] }}</span>
+    <a href="{{ url_for('logout') }}" class="btn btn-sm btn-outline">Logout</a>
+  </div>
+  {% endif %}
+</nav>
+
+<!-- ── FLASH MESSAGES ────────────────────────────────────────────── -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-container">
+      {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<!-- ── PAGE CONTENT ──────────────────────────────────────────────── -->
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+  <p>© 2026 AI Fake Internship &amp; Job Detector · Built with 🐍 Flask + SQLite</p>
+</footer>
+
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

@@ -139,6 +139,6 @@ Contributions are highly welcome! Whether it's adding new scam detection pattern
 Developed with ❤️ by our amazing team:
 - **Sahil Raj** ([@sahil24raj](https://github.com/sahil24raj))
 - **Durgesh Mishra** ([@dsr111-cyber](https://github.com/dsr111-cyber))
-- **Priyanshu Kumar**  ([@priyanshusingh7758-wq]()
+- **Priyanshu Kumar**  ([@priyanshusingh7758-wq])
 
 This project is open-source and available under the [MIT License](LICENSE). Feel free to use and modify it for your own purposes!

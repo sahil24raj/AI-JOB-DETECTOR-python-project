@@ -7,42 +7,43 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  /* Palette */
-  --bg-base:       #0d0f1a;
-  --bg-card:       #13162b;
-  --bg-card2:      #181d33;
-  --border:        rgba(255,255,255,0.07);
-  --border-hover:  rgba(255,255,255,0.14);
+  /* Cyberpunk Palette */
+  --bg-base:       #050505;
+  --bg-card:       #0a0a0c;
+  --bg-card2:      #111116;
+  --border:        #333333;
+  --border-hover:  #00ffff;
 
-  /* Brand gradient */
-  --grad-start:    #6c63ff;
-  --grad-end:      #a78bfa;
+  /* Brand neon */
+  --grad-start:    #ff00ff;
+  --grad-end:      #00ffff;
   --grad:          linear-gradient(135deg, var(--grad-start), var(--grad-end));
-
-  /* Status colours */
-  --safe:          #22c55e;
-  --safe-bg:       rgba(34,197,94,.12);
-  --medium:        #f59e0b;
-  --medium-bg:     rgba(245,158,11,.12);
-  --high:          #ef4444;
-  --high-bg:       rgba(239,68,68,.12);
+  
+  /* Neon Status colours */
+  --safe:          #00ff00;
+  --safe-bg:       rgba(0, 255, 0, 0.1);
+  --medium:        #fce205;
+  --medium-bg:     rgba(252, 226, 5, 0.1);
+  --high:          #ff003c;
+  --high-bg:       rgba(255, 0, 60, 0.1);
 
   /* Text */
-  --text-primary:  #e8eaf6;
-  --text-muted:    #9094b5;
-  --text-subtle:   #5f638a;
+  --text-primary:  #f0f0f0;
+  --text-muted:    #a0a0a0;
+  --text-subtle:   #555555;
 
-  /* Misc */
-  --radius:        14px;
-  --radius-sm:     8px;
-  --shadow:        0 8px 40px rgba(0,0,0,.45);
-  --transition:    0.22s ease;
+  /* Cyberpunk specific styling */
+  --radius:        0px;
+  --radius-sm:     0px;
+  --shadow:        0 0 15px rgba(0, 255, 255, 0.15);
+  --shadow-hover:  0 0 25px rgba(255, 0, 255, 0.4);
+  --transition:    0.2s ease-in-out;
 }
 
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Rajdhani', sans-serif;
   background: var(--bg-base);
   color: var(--text-primary);
   min-height: 100vh;
@@ -124,13 +125,19 @@ a:hover { text-decoration: underline; }
 .btn:hover { text-decoration: none; }
 
 .btn-primary {
-  background: var(--grad);
-  color: #fff;
-  box-shadow: 0 4px 20px rgba(108,99,255,.4);
+  background: transparent;
+  color: var(--grad-end);
+  border: 1px solid var(--grad-end);
+  box-shadow: 0 0 10px rgba(0,255,255,0.3), inset 0 0 10px rgba(0,255,255,0.1);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-family: 'Orbitron', sans-serif;
 }
 .btn-primary:hover {
+  background: var(--grad-end);
+  color: #000;
+  box-shadow: 0 0 20px rgba(0,255,255,0.6);
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(108,99,255,.55);
 }
 
 .btn-outline {
@@ -202,8 +209,8 @@ a:hover { text-decoration: underline; }
 
 .auth-header { text-align: center; margin-bottom: 2rem; }
 .auth-icon { font-size: 2.8rem; margin-bottom: .6rem; }
-.auth-header h1 { font-size: 1.6rem; font-weight: 800; letter-spacing: -.5px; }
-.auth-header p  { color: var(--text-muted); font-size: .9rem; margin-top: .3rem; }
+.auth-header h1 { font-family: 'Orbitron', sans-serif; font-size: 1.6rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; text-shadow: 0 0 10px var(--grad-start); }
+.auth-header p  { color: var(--text-muted); font-size: 1.1rem; margin-top: .3rem; }
 
 .auth-form { display: flex; flex-direction: column; gap: 1.2rem; }
 .auth-footer { text-align: center; margin-top: 1.5rem; font-size: .88rem; color: var(--text-muted); }
@@ -278,17 +285,19 @@ main { flex: 1; }
 }
 
 .hero-title {
-  font-size: clamp(1.8rem, 5vw, 2.8rem);
-  font-weight: 800;
-  letter-spacing: -1px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 900;
+  letter-spacing: 2px;
   line-height: 1.15;
   margin-bottom: .7rem;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(255,0,255,0.5);
 }
 .gradient-text {
-  background: var(--grad);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--grad-end);
+  text-shadow: 0 0 15px var(--grad-end);
+  -webkit-text-fill-color: var(--grad-end);
 }
 .hero-sub {
   color: var(--text-muted);
@@ -327,7 +336,7 @@ main { flex: 1; }
   align-items: center;
   margin-bottom: 1rem;
 }
-.card-header h2 { font-size: 1.05rem; font-weight: 700; }
+.card-header h2 { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 700; letter-spacing: 1px; color: var(--grad-end); }
 .char-count { font-size: .8rem; color: var(--text-subtle); }
 
 .job-textarea {
@@ -479,10 +488,13 @@ main { flex: 1; }
 /* ── HOW IT WORKS ─────────────────────────────────────────────── */
 .how-section { padding-bottom: 1rem; }
 .section-title {
-  font-size: 1.3rem;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.6rem;
   font-weight: 800;
   margin-bottom: 1.4rem;
-  letter-spacing: -.4px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--grad-start);
 }
 
 .steps-grid {

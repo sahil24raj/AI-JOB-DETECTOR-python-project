@@ -99,10 +99,32 @@ def login():
         user = cursor.fetchone()
         conn.close()
 
-        if user and bcrypt.checkpw(password.encode('utf-8'), user['password'].encode('utf-8')):
-            session['user_id']   = user['id']
-            session['user_name'] = user['name']
-            return redirect(url_for('dashboard'))
+        if user:
+            # Check password
+            db_password = user['password']
+            is_valid = False
+            
+            # If stored password starts with $2b$ or $2a$, it's hashed
+            if db_password.startswith('$2b$') or db_password.startswith('$2a$'):
+                try:
+                    is_valid = bcrypt.checkpw(password.encode('utf-8'), db_password.encode('utf-8'))
+                except ValueError:
+                    pass
+            else:
+                # Plain text password fallback
+                if password == db_password:
+                    is_valid = True
+                    # Upgrade to bcrypt on the fly
+                    hashed_pw = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+                    conn = get_db_connection()
+                    conn.execute('UPDATE users SET password = ? WHERE id = ?', (hashed_pw, user['id']))
+                    conn.commit()
+                    conn.close()
+
+            if is_valid:
+                session['user_id']   = user['id']
+                session['user_name'] = user['name']
+                return redirect(url_for('dashboard'))
 
         flash('Invalid email or password.', 'error')
         return redirect(url_for('login'))
